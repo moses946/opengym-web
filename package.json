@@ -4,7 +4,7 @@
   },
   "scripts": {
     "dev": "npm --prefix frontend run dev -- --mode production",
-    "build": "npm --prefix frontend run build && node scripts/fetch-web-media.mjs && node scripts/catalogue/stage-media.mjs frontend/dist",
+    "build": "npm --prefix frontend run build && node scripts/fetch-web-media.mjs && node scripts/catalogue/stage-media.mjs frontend/dist && node scripts/stage-site.mjs",
     "preview": "npm --prefix frontend run preview"
   }
 }
