@@ -1,0 +1,10 @@
+{
+  "devDependencies": {
+    "js-yaml": "^4.1.0"
+  },
+  "scripts": {
+    "dev": "npm --prefix frontend run dev -- --mode production",
+    "build": "npm --prefix frontend run build && node scripts/fetch-web-media.mjs && node scripts/catalogue/stage-media.mjs frontend/dist",
+    "preview": "npm --prefix frontend run preview"
+  }
+}
