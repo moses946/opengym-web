@@ -34,13 +34,44 @@ const FIVE_BY_FIVE = [
   ['5x5-c', '5×5 C', 'barbell', [['0739', 5, 5], ['0047', 5, 5], ['1323', 5, 5]]]
 ]
 
+const BEGINNER = [
+  ['begin-a', 'Foundation A', 'figureStrength', [['1760', 2, 10], ['0289', 2, 10], ['0293', 2, 10], ['1373', 2, 12]]],
+  ['begin-b', 'Foundation B', 'figureStrength', [['1459', 2, 10], ['0405', 2, 10], ['2330', 2, 10], ['0872', 2, 12]]]
+]
+
+const EXPRESS = FULL_BODY.map(([key, name, icon, exercises]) =>
+  ['express-' + key, name.replace('Full Body', 'Express'), icon, exercises.slice(0, 3).map(([id]) => [id, 2, 10])])
+
+const DUMBBELL = [
+  ['db-a', 'Dumbbell A', 'barbell', [['1760', 3, 10], ['0289', 3, 10], ['0293', 3, 10], ['0334', 2, 12]]],
+  ['db-b', 'Dumbbell B', 'barbell', [['1459', 3, 10], ['0405', 3, 10], ['0293', 3, 10], ['0417', 2, 12]]],
+  ['db-c', 'Dumbbell C', 'barbell', [['1760', 3, 12], ['0289', 3, 10], ['1459', 3, 10], ['0334', 2, 12]]]
+]
+
+const BODYWEIGHT = [
+  ['home-a', 'Bodyweight A', 'figureStrength', [['3948', 3, 12], ['0662', 3, 8], ['3436', 2, 10], ['0872', 2, 12]]],
+  ['home-b', 'Bodyweight B', 'figureStrength', [['3470', 3, 10], ['0662', 2, 8], ['3561', 3, 12], ['1373', 2, 15]]],
+  ['home-c', 'Bodyweight C', 'figureStrength', [['3948', 3, 12], ['3436', 3, 10], ['3561', 2, 12], ['0872', 2, 12]]]
+]
+
+const LOWER_FOCUS = [
+  ['glute-a', 'Lower Focus A', 'legs', [['1060', 3, 10], ['1760', 3, 10], ['0586', 2, 12], ['0605', 3, 15]]],
+  ['glute-b', 'Lower Focus B', 'legs', [['1459', 3, 10], ['0739', 3, 10], ['1060', 2, 12], ['1373', 3, 15]]]
+]
+
 // [weekday, routineKey] — weekday is a DAYN index, so 1 is Monday. Fixed weeks only: every
 // plan repeats the same seven days, which is all the weekly plan model can represent.
 const PLANS = {
   ppl: { routines: PPL, schedule: [[1, 'push'], [3, 'pull'], [5, 'legs']] },
   'upper-lower': { routines: UPPER_LOWER, schedule: [[1, 'upper-a'], [2, 'lower-a'], [4, 'upper-b'], [5, 'lower-b']] },
   'full-body': { routines: FULL_BODY, schedule: [[1, 'fb-a'], [3, 'fb-b'], [5, 'fb-c']] },
-  '5x5': { routines: FIVE_BY_FIVE, schedule: [[1, '5x5-a'], [3, '5x5-b'], [5, '5x5-c']] }
+  '5x5': { routines: FIVE_BY_FIVE, schedule: [[1, '5x5-a'], [3, '5x5-b'], [5, '5x5-c']] },
+  beginner: { routines: BEGINNER, schedule: [[1, 'begin-a'], [4, 'begin-b']] },
+  express: { routines: EXPRESS, schedule: [[1, 'express-fb-a'], [3, 'express-fb-b'], [5, 'express-fb-c']] },
+  dumbbell: { routines: DUMBBELL, schedule: [[1, 'db-a'], [3, 'db-b'], [5, 'db-c']] },
+  bodyweight: { routines: BODYWEIGHT, schedule: [[1, 'home-a'], [3, 'home-b'], [5, 'home-c']] },
+  'lower-focus': { routines: LOWER_FOCUS, schedule: [[2, 'glute-a'], [5, 'glute-b']] },
+  'ppl-six': { routines: PPL, schedule: [[1, 'push'], [2, 'pull'], [3, 'legs'], [4, 'push'], [5, 'pull'], [6, 'legs']] }
 }
 
 const build = routines =>

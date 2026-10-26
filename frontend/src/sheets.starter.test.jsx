@@ -53,8 +53,21 @@ describe('starter plan chooser', () => {
     starterPlanSheet()
     const host = renderTop()
     expect([...host.querySelectorAll('.item .tt')].map(el => el.textContent))
-      .toEqual(['Push / Pull / Legs', 'Upper / Lower', 'Full Body', '5×5'])
+      .toEqual(['Push / Pull / Legs', 'Upper / Lower', 'Full Body', '5×5',
+        'Beginner Foundation', 'Express Full Body', 'Dumbbell Full Body',
+        'Bodyweight at Home', 'Lower Body & Glutes', 'Push / Pull / Legs ×2'])
     expect(rowFor(host, 'Upper / Lower').querySelector('.ss').textContent).toContain('4 days per week')
+  })
+
+  it('loads a home plan without replacing unrelated routines or days', () => {
+    useStore.setState(s => ({ S: { ...s.S, week: { 0: ['mine'] } } }))
+    choose('Bodyweight at Home')
+    expect(nameOn(1)).toBe('Bodyweight A')
+    expect(nameOn(3)).toBe('Bodyweight B')
+    expect(nameOn(5)).toBe('Bodyweight C')
+    expect(S().week[0]).toEqual(['mine'])
+    expect(S().routines[0].name).toBe('My routine')
+    expect(useUI.getState().toastMsg).toBe('Bodyweight at Home loaded')
   })
 
   it('loads straight away when the plan’s weekdays are free, without asking', () => {

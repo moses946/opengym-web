@@ -178,7 +178,13 @@ const PLAN_COPY = {
   ppl: () => ({ name: t('Push / Pull / Legs'), about: t('Push, pull and legs each get their own day.') }),
   'upper-lower': () => ({ name: t('Upper / Lower'), about: t('Upper body twice, lower body twice.') }),
   'full-body': () => ({ name: t('Full Body'), about: t('Three sessions, the whole body each time.') }),
-  '5x5': () => ({ name: t('5×5'), about: t('Five sets of five on the main barbell lifts.') })
+  '5x5': () => ({ name: t('5×5'), about: t('Five sets of five on the main barbell lifts.') }),
+  beginner: () => ({ name: t('Beginner Foundation'), about: t('Two full-body sessions with fewer sets. Gym equipment.') }),
+  express: () => ({ name: t('Express Full Body'), about: t('Three exercises per session for a shorter gym visit.') }),
+  dumbbell: () => ({ name: t('Dumbbell Full Body'), about: t('Three sessions using dumbbells and a bench.') }),
+  bodyweight: () => ({ name: t('Bodyweight at Home'), about: t('Floor-based training with no weights or machines.') }),
+  'lower-focus': () => ({ name: t('Lower Body & Glutes'), about: t('Two focused lower-body sessions to add to your week.') }),
+  'ppl-six': () => ({ name: t('Push / Pull / Legs ×2'), about: t('Repeat the split twice. Six training days, one rest day.') })
 }
 
 // Adds the plan's routines (reusing one you already have under the same name) and puts them on

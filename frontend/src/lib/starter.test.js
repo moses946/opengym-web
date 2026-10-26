@@ -32,10 +32,13 @@ const APPROVED = {
 const shape = r => r.ex.map(e => [e.id, e.sets, e.reps])
 
 describe('starter plan catalog', () => {
-  it('offers exactly the four plans, with the day count read off the schedule', () => {
+  it('offers ten plans, with the day count read off the schedule', () => {
     expect(starterPlanOptions()).toEqual([
       { id: 'ppl', days: 3 }, { id: 'upper-lower', days: 4 },
       { id: 'full-body', days: 3 }, { id: '5x5', days: 3 },
+      { id: 'beginner', days: 2 }, { id: 'express', days: 3 },
+      { id: 'dumbbell', days: 3 }, { id: 'bodyweight', days: 3 },
+      { id: 'lower-focus', days: 2 }, { id: 'ppl-six', days: 6 },
     ])
     for (const { id, days } of starterPlanOptions()) expect(starterPlanDays(id)).toHaveLength(days)
   })
@@ -46,6 +49,43 @@ describe('starter plan catalog', () => {
     // A click handler wired straight to a loader would hand the event in as the plan.
     expect(buildStarterPlan({ type: 'click' })).toBeNull()
     expect(starterPlanDays('nope')).toBeNull()
+  })
+})
+
+describe('expanded starter plans', () => {
+  it('keeps every new schedule valid with unique days and real exercises', () => {
+    for (const id of ['beginner', 'express', 'dumbbell', 'bodyweight', 'lower-focus', 'ppl-six']) {
+      const { routines, schedule } = buildStarterPlan(id)
+      const ids = new Set(routines.map(r => r.id))
+      expect(new Set(schedule.map(s => s.day)).size).toBe(schedule.length)
+      for (const { day, routineId } of schedule) {
+        expect(day).toBeGreaterThanOrEqual(0)
+        expect(day).toBeLessThan(7)
+        expect(ids.has(routineId)).toBe(true)
+      }
+      for (const r of routines) for (const ex of r.ex) {
+        expect(EXIDX[ex.id], ex.id).toBeTruthy()
+        expect(ex.weight).toBe(0)
+        expect(ex.sets).toBeGreaterThan(0)
+        expect(ex.reps).toBeGreaterThan(0)
+      }
+    }
+  })
+  it('keeps the home plan equipment-free and the dumbbell plan free of machines', () => {
+    for (const r of buildStarterPlan('bodyweight').routines)
+      for (const ex of r.ex) expect(EXIDX[ex.id].eq).toBe('body weight')
+    for (const r of buildStarterPlan('dumbbell').routines)
+      for (const ex of r.ex) expect(EXIDX[ex.id].eq).toBe('dumbbell')
+  })
+  it('keeps express sessions to three exercises and the beginner plan to two sets', () => {
+    for (const r of buildStarterPlan('express').routines) expect(r.ex).toHaveLength(3)
+    for (const r of buildStarterPlan('beginner').routines)
+      for (const ex of r.ex) expect(ex.sets).toBe(2)
+  })
+  it('reuses three routines across the six-day split', () => {
+    const plan = buildStarterPlan('ppl-six')
+    expect(plan.routines).toHaveLength(3)
+    expect(plan.schedule.map(s => s.routineId)).toEqual([...plan.routines, ...plan.routines].map(r => r.id))
   })
 })
 
